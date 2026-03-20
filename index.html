@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conteúdo em Reformulação</title>
+    
+    <!-- Importando a fonte Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f8f9fa; 
+            color: #000b1a; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .top-bar {
+            width: 100%;
+            padding: 30px 0;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #eaeaea; 
+            position: absolute;
+            top: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .timer {
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .content {
+            margin-top: 80px; 
+            padding: 20px;
+        }
+
+        .title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 22px;
+            font-weight: 400;
+            margin-bottom: 15px;
+        }
+
+        .date-time {
+            font-size: 24px;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header com o Contador e Ícone -->
+    <div class="top-bar">
+        <span class="timer" id="countdown">00:00:00</span>
+        <!-- Ícone SVG de relógio -->
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+    </div>
+
+    <!-- Mensagem Central -->
+    <div class="content">
+        <h1 class="title">Olá! Este conteúdo está sendo reformulado.</h1>
+        <p class="subtitle">O material atualizado será disponibilizado em:</p>
+        <p class="date-time">20/03 - 18h30</p>
+    </div>
+
+    <script>
+        function iniciarContador() {
+            const agora = new Date();
+            
+            // Define o alvo fixo para o dia 20 de Março do ano atual, às 18:30:00.
+            // Lembrete: No Javascript, os meses começam do 0 (Janeiro = 0, Fevereiro = 1, Março = 2)
+            const dataAlvo = new Date(agora.getFullYear(), 2, 20, 18, 30, 0);
+
+            const elementoContador = document.getElementById('countdown');
+
+            const atualizarTempo = () => {
+                const tempoAtual = new Date().getTime();
+                const distancia = dataAlvo.getTime() - tempoAtual;
+
+                // Se o horário já passou, trava no zero
+                if (distancia < 0) {
+                    elementoContador.innerHTML = "00:00:00";
+                    clearInterval(intervalo);
+                    return;
+                }
+
+                // Cálculo do tempo total de horas, minutos e segundos restantes
+                const horas = Math.floor(distancia / (1000 * 60 * 60));
+                const minutos = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
+                const segundos = Math.floor((distancia % (1000 * 60)) / 1000);
+
+                // Formatação para exibir sempre com 2 ou mais dígitos (Ex: 05 ao invés de 5)
+                const hFormatado = String(horas).padStart(2, '0');
+                const mFormatado = String(minutos).padStart(2, '0');
+                const sFormatado = String(segundos).padStart(2, '0');
+
+                // Atualiza o HTML
+                elementoContador.innerHTML = `${hFormatado}:${mFormatado}:${sFormatado}`;
+            };
+
+            atualizarTempo(); 
+            const intervalo = setInterval(atualizarTempo, 1000);
+        }
+
+        iniciarContador();
+    </script>
+
+</body>
+</html>
